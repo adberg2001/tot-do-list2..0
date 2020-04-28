@@ -1,86 +1,38 @@
-body{
-    font-family: sans-serif;
-    margin: 0;
-}
+/*.div{*/
+/*    box-sizing: border-box;*/
+/*    height: 100vh;*/
+/*    background: #fefefe;*/
 
-.container{
-    box-sizing: border-box;
-    width: 500px;
-    height: 300px;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/*}*/
 
-    font-weight: bold;
-}
+/*li{*/
+/*    width: 100%;*/
+/*    height: 100px;*/
+/*    display: grid;*/
+/*    grid-template-rows: 1fr 1fr;*/
+/*    margin: 30px 0;*/
+/*    border: 3px solid #384f2a;*/
+/*    border-radius: 15px;*/
 
-#header-row, #text{
-    width: 100%;
-    text-align: center;
-}
+/*    font-weight: bold;*/
+/*    font-size: 34px;*/
+/*    text-align: center;*/
+/*    list-style-type: none;*/
+/*    color: rgba(28, 201, 0, 0.71);*/
+/*    cursor: pointer;*/
+/*}*/
 
-#input-btn{
-    width: 100%;
-    height: 100px;
-    border: 2px solid;
-}
+/*p{*/
+/*    font-weight: bold;*/
+/*    font-size: 28px;*/
+/*    text-align: center;*/
+/*    margin: 0;*/
+/*}*/
 
-#row{
-    width: 100%;
-    text-align: center;
-    padding: 50px 0;
-}
+/*.pNone{*/
+/*    display: none;*/
+/*}*/
 
-.li-cont{
-    margin: 10px auto;
-    padding: 10px;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    border: 1px;
-    border: solid #6a3a40;
-    border-radius: 14px;
-    cursor: pointer;
-}
-
-.li{
-    font-size: 24px;
-    list-style-type: none;
-    font-weight: bold;
-}
-
-.notDone{
-    /*color: red;*/
-}
-
-.remasterBtn{
-    margin-left: auto;
-}
-
-.li-delete, .remasterBtn, .doneBtn{
-    width: 200px;
-    height: 100%;
-    font-family: inherit;
-    font-size: 25px;
-}
-
-.createInput{
-    width: 300px;
-    font-size: 24px;
-    font-weight: bold;
-}
-p{
-    width: 600px;
-    height: auto;
-    font-size: 18px;
-    text-align: center;
-    font-weight: bold;
-    margin: 15px;
-    padding: 5px;
-    border: 2px solid #6a3a40;
-}
-
-.pNone{
-    display: none;
-}
+/*.notDone{*/
+/*    color: rgba(173, 0, 11, 0.78);*/
+/*}*/

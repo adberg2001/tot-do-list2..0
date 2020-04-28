@@ -1,42 +1,66 @@
 const createRow = (row) => {
     const list = document.getElementById('row');
-    const liCont = document.createElement('div');
-    liCont.classList.add('li-cont');
-    liCont.setAttribute('id', row.id);
-
-    const li = document.createElement('li');
-    li.classList.add('li');
-    li.setAttribute('id', row.id);
-    li.textContent = row.text;
+    const liCont = setAtr('div', 'class', 'li-cont');
+    const li = setAtr('li', 'class', 'li', row.text);
     if (!row.done) {
         li.style.textDecoration = 'line-through';
     }
 
-    const remasterBtn = document.createElement('button');
-    remasterBtn.textContent = 'Редактировать';
-    remasterBtn.setAttribute('data-number', row.id);
-    remasterBtn.setAttribute('id', row.id);
-    remasterBtn.classList.add("remasterBtn");
+    const remasterBtn = setAtr('button', 'class', 'remasterBtn', 'Редактировать');
+    const doneBtn = setAtr('button', 'class', "doneBtn",row.done ? 'Сделано' : "Не сделано");
+    const descBtn = setAtr('button', 'class', 'descBtn', 'Описание');
+    const liDelete = setAtr('button', 'class', "li-delete", 'Удалить');
 
-    const doneBtn = document.createElement('button');
-    doneBtn.textContent = 'Сделано';
-    doneBtn.setAttribute('data-number', row.id);
-    doneBtn.setAttribute('data-value', row.done);
-    doneBtn.setAttribute('id', row.id);
-    doneBtn.classList.add("doneBtn");
-
-    const liDelete = document.createElement('button');
-    liDelete.textContent = 'Удалить';
-    liDelete.setAttribute('data-number', row.id);
-    liDelete.setAttribute('class', "li-delete");
+    doneBtn.onclick = () => {
+        row.done === false ?
+            doneTask(row.id, true) :
+            doneTask(row.id, false);
+    };
+    liDelete.onclick = () => {
+        deleteTask(row.id)
+    };
+    descBtn.onclick = () => {
+        if (!descBtn.hasAttribute('data-value')) {
+            openDesc(descBtn, row.id);
+            descBtn.setAttribute('data-value', 'true');
+        } else {
+            descBtn.removeAttribute('data-value');
+            descBtn.parentNode.lastChild.classList.toggle('pNone')
+        }
+    };
+    remasterBtn.onclick = () => {
+        const input = setAtr('input', 'placeholder', liCont.firstChild.textContent);
+        input.classList.add('createInput');
+        li.textContent = '';
+        liCont.replaceChild(input, liCont.firstChild);
+        remasterBtn.disabled = true;
+        input.onchange = () => {
+            editTask(row.id, input.value);
+            remasterBtn.disabled = false;
+        }
+    };
 
     liCont.appendChild(li);
     liCont.appendChild(remasterBtn);
+    liCont.appendChild(descBtn);
     liCont.appendChild(doneBtn);
     liCont.appendChild(liDelete);
     list.appendChild(liCont);
 };
 
+
+const callCreatRow = () => {
+    fetch('http://localhost:3000/list')
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            const list = document.getElementById('row');
+            list.innerHTML = '';
+            json.forEach(function (j) {
+                createRow(j);
+            });
+        })
+};
 
 const createTask = (text, done, desc) => {
     fetch('http://localhost:3000/add', {
@@ -47,8 +71,7 @@ const createTask = (text, done, desc) => {
             done: done,
             desc: desc
         }),
-    })
-        .then(() => window.location.reload())
+    }).then(() => callCreatRow())
 };
 
 const editTask = (id, body) => {
@@ -57,7 +80,7 @@ const editTask = (id, body) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({text: body}),
     })
-        .then(() => window.location.reload());
+        .then(() => callCreatRow());
 };
 
 const doneTask = (id, body) => {
@@ -66,115 +89,41 @@ const doneTask = (id, body) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({done: body}),
     })
-        .then(() => window.location.reload());
+        .then(() => callCreatRow());
 };
 
 const deleteTask = (id) => {
     fetch(`http://localhost:3000/delete/${id}`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
-    });
+    }).then(() => callCreatRow())
 };
 
-const createInput = (id) => {
-    const li = document.getElementById(`${id}`);
-    const input = document.createElement('input');
-    const reBtn = document.getElementById(`${id}`);
-    input.setAttribute('placeholder', li.textContent);
-    input.classList.add('createInput');
-
-    li.textContent = "";
-    li.appendChild(input);
-
-    input.onchange = () => {
-        editTask(id, input.value);
-        reBtn.disabled = false;
-    };
+const openDesc = (descBtn, id) => {
+    const p = document.createElement('p');
+    fetch(`http://localhost:3000/list/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            p.textContent = data.desc;
+            descBtn.parentNode.appendChild(p);
+        });
 };
 
-fetch('http://localhost:3000/list')
-    .then(response => response.json())
-    .then(json => {
-        console.log(json);
-
-        json.forEach(function (j) {
-            createRow(j);
-        })
-    })
-    .then(() => {
-        const remasterBtn = document.querySelectorAll('.remasterBtn');
-        remasterBtn.forEach((r) => {
-            let id = r.getAttribute('data-number');
-            r.addEventListener('click', () => {
-                r.disabled = true;
-                createInput(id);
-            })
-        })
-
-    })
-    .then(() => {
-        const doneBtn = document.querySelectorAll('.doneBtn');
-
-        doneBtn.forEach((d) => {
-            let id = d.getAttribute('data-number');
-            let done = d.getAttribute('data-value');
-            d.addEventListener('click', () => {
-                done === "false" ? doneTask(id, true) : doneTask(id, false);
-            })
-        })
-    })
-    .then(() => {
-        const liDelete = document.querySelectorAll('.li-delete');
-
-        liDelete.forEach(l => {
-            let id = l.getAttribute('data-number');
-
-            l.addEventListener('click', () => {
-                deleteTask(id);
-                window.location.reload();
-            })
-        })
-    })
-    .then(() => {
-        const liCont = document.querySelectorAll('.li-cont');
-        liCont.forEach((l) => {
-            let disabled = false;
-            let id = l.getAttribute('id');
-            const p = document.createElement('p');
-
-            l.addEventListener('click', () => {
-                fetch(`http://localhost:3000/list/${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        p.textContent = data.desc;
-                        return p;
-                    });
-
-                if (!disabled) {
-                    l.appendChild(p);
-                    disabled = true;
-                } else {
-                    const a = document.getElementById(`${id}`);
-
-                    for (let i = 0; i < a.children.length; i++) {
-                        if (a.children[i].tagName === 'P') {
-                            console.log(a.children[i])
-                            a.children[i].classList.toggle('pNone')
-                        }
-                    }
-                }
-            })
-        })
-    });
+const setAtr = (tag, atr, atrName, text) => {
+    const el = document.createElement(tag);
+    el.setAttribute(atr, atrName);
+    el.textContent = text;
+    return el;
+};
 
 const headerRow = document.getElementById('header-row');
 const textArea = document.getElementById('text');
 const addBtn = document.getElementById('input-btn');
 
-headerRow.onchange = () => {
-    textArea.onchange = () => {
-        addBtn.addEventListener('click', event => {
-            createTask(headerRow.value, true, textArea.value)
-        });
+callCreatRow();
+
+addBtn.addEventListener('click', () => {
+    if (headerRow.value && textArea.value) {
+        createTask(headerRow.value, true, textArea.value)
     }
-};
+});
