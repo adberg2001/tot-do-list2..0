@@ -4,6 +4,9 @@
   "description": "",
   "main": "script.js",
   "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --port 3001",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +22,11 @@
   "homepage": "https://github.com/adberg2001/DZ-36-project#readme",
   "dependencies": {
     "bootstrap": "^4.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-loader": "^8.1.0",
+    "path": "^0.12.7"
   }
 }

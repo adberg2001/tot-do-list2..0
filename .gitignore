@@ -2,3 +2,5 @@
 .vscode
 .idea
 desktop.ini
+node_modules
+dist
