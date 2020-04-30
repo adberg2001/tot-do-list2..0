@@ -3,4 +3,5 @@
 .idea
 desktop.ini
 node_modules
+/node_modules/bootstrap
 dist
