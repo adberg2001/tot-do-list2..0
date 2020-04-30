@@ -1,12 +1,10 @@
 {
   "name": "projct",
   "version": "1.0.0",
-  "description": "",
   "main": "script.js",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --port 3001",
-
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,5 +26,6 @@
     "@babel/preset-env": "^7.9.5",
     "babel-loader": "^8.1.0",
     "path": "^0.12.7"
-  }
+  },
+  "description": ""
 }
