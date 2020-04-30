@@ -1,4 +1,4 @@
-const createRow = (row) => {
+const createList = (row) => {
     const list = document.getElementById('row');
     const liCont = setAtr('div', 'class', 'li-cont');
     const li = setAtr('li', 'class', 'li', row.text);
@@ -49,17 +49,17 @@ const createRow = (row) => {
 };
 
 
-const callCreatRow = () => {
+const startCreatList = () => {
     fetch('http://localhost:3000/list')
         .then(response => {
             if (!response.ok) throw new Error("Невозможно загрузить данные, пожалуйтса, перезагрузите стр!");
             return response.json()
         })
-        .then(json => {
+        .then(data => {
             const list = document.getElementById('row');
             list.innerHTML = '';
-            json.forEach(function (j) {
-                createRow(j);
+            data.forEach(function (row) {
+                createList(row);
             });
         })
         .catch((err) => {
@@ -80,36 +80,36 @@ const createTask = (text, done, desc) => {
         .then(response => {
             if (!response.ok) throw new Error("Ошибка, вас взломали!")
         })
-        .then(() => callCreatRow())
+        .then(() => startCreatList())
         .catch((err) => {
             editError(err)
         })
 };
 
-const editTask = (id, body) => {
+const editTask = (id, text) => {
     fetch(`http://localhost:3000/edit/${id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({text: body}),
+        body: JSON.stringify({text: text}),
     })
         .then(response => {
             if (!response.ok) throw new Error('Ошибка с редактированием!')
         })
-        .then(() => callCreatRow())
+        .then(() => startCreatList())
         .catch((err) => {
             editError(err)
         })
 };
 
-const doneTask = (id, body) => {
+const doneTask = (id, text) => {
     fetch(`http://localhost:3000/edit/${id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({done: body}),
+        body: JSON.stringify({done: text}),
     }).then(response => {
         if (!response.ok) throw new Error("Ошибка с выполнением задачи!")
     })
-        .then(() => callCreatRow())
+        .then(() => startCreatList())
         .catch((err) => {
             editError(err)
         })
@@ -122,7 +122,7 @@ const deleteTask = (id) => {
     }).then(response => {
         if (!response.ok) throw new Error("Ошибка с удалением!")
     })
-        .then(() => callCreatRow())
+        .then(() => startCreatList())
         .catch((err) => {
             editError(err)
         })
@@ -162,7 +162,7 @@ const addBtn = document.getElementById('input-btn');
 const error = document.querySelector('.error');
 const error2 = document.querySelector('.error2');
 
-callCreatRow();
+startCreatList();
 
 addBtn.addEventListener('click', () => {
     if (headerRow.value && textArea.value) {
