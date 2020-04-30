@@ -2,3 +2,7 @@
 .vscode
 .idea
 desktop.ini
+node_modules
+/node_modules/bootstrap
+/node_modules
+dist
