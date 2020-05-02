@@ -1,0 +1,49 @@
+
+#color-btns{
+    min-width: 250px;
+    max-width: 310px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-text{
+    width: 130px;
+}
+
+.color-label input{
+    display: none;
+}
+
+.color-label input:checked + .color-circle{
+    border: 2px solid var(--dark-text-color);
+}
+
+.color-cont{
+    width: 160px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-circle{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid rgba(51, 51, 51, 0.27);
+}
+#light-color-btn{
+    background: #FFFBE3;
+}
+#pink-color-btn{
+    background: #FFD2D2;
+}
+#gray-color-btn{
+    background: #D3D2FF;
+}
+#blue-color-btn{
+    background: #D7FDD1;
+}
+#yellow-color-btn{
+    background: #F8E1B6;
+}
