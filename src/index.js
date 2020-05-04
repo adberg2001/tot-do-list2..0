@@ -1,17 +1,19 @@
-import api from './api';
+import api from './api.js';
+
+console.log(api.startGetList());
 
 const makeList = (row) => {
     const list = document.getElementById('row');
-    const liCont = api.setAtr('div', 'class', 'li-cont');
-    const li = api.setAtr('li', 'class', 'li', row.text);
+    const liCont = setAtr('div', 'class', 'li-cont');
+    const li = setAtr('li', 'class', 'li', row.text);
     if (!row.done) {
         li.style.textDecoration = 'line-through';
     }
 
-    const remasterBtn = api.setAtr('button', 'class', 'remasterBtn', 'Редактировать');
-    const doneBtn = api.setAtr('button', 'class', "doneBtn", row.done ? 'Сделано' : "Не сделано");
-    const descBtn = api.setAtr('button', 'class', 'descBtn', 'Описание');
-    const liDelete = api.setAtr('button', 'class', "li-delete", 'Удалить');
+    const remasterBtn = setAtr('button', 'class', 'remasterBtn', 'Редактировать');
+    const doneBtn = setAtr('button', 'class', "doneBtn", row.done ? 'Сделано' : "Не сделано");
+    const descBtn = setAtr('button', 'class', 'descBtn', 'Описание');
+    const liDelete = setAtr('button', 'class', "li-delete", 'Удалить');
 
     doneBtn.onclick = () => {
         row.done === false ?
@@ -31,7 +33,7 @@ const makeList = (row) => {
         }
     };
     remasterBtn.onclick = () => {
-        const input = api.setAtr('input', 'placeholder', liCont.firstChild.textContent);
+        const input = setAtr('input', 'placeholder', liCont.firstChild.textContent);
         input.classList.add('createInput');
         li.textContent = '';
         liCont.replaceChild(input, liCont.firstChild);
@@ -51,31 +53,18 @@ const makeList = (row) => {
 };
 
 
-const createList = () => {
-    fetch(`http://localhost:3000/list`)
-        .then(response => {
-            if (!response.ok) throw new Error("Невозможно загрузить данные, пожалуйтса, перезагрузите стр!");
-            return response.json()
-        })
-        .then(data => {
-            const list = document.getElementById('row');
-            list.innerHTML = '';
-            data.forEach(function (row) {
-                makeList(row);
-            });
-        })
-        .catch((err) => {
-            editError(err);
-        })
+const setAtr =  (tag, atr, atrName, text) => {
+    const el = document.createElement(tag);
+    el.setAttribute(atr, atrName);
+    el.textContent = text;
+    return el;
 };
 
 const headerRow = document.getElementById('header-row');
 const textArea = document.getElementById('text');
 const addBtn = document.getElementById('input-btn');
 
-const error = document.querySelector('.error');
-
-createList();
+api.startCreateList();
 
 addBtn.addEventListener('click', () => {
     if (headerRow.value && textArea.value) {
@@ -86,35 +75,3 @@ addBtn.addEventListener('click', () => {
     }
 });
 
-const editError = (err) => {
-    console.log(err);
-    error.textContent = err;
-    error.style.border = "5px solid rgb(6, 0, 255)";
-    error.style.backgroundColor = "#fffa00";
-};
-
-export default {
-    editError : (err) => {
-        console.log(err);
-        error.textContent = err;
-        error.style.border = "5px solid rgb(6, 0, 255)";
-        error.style.backgroundColor = "#fffa00";
-    },
-    createList : () => {
-        fetch(`http://localhost:3000/list`)
-            .then(response => {
-                if (!response.ok) throw new Error("Невозможно загрузить данные, пожалуйтса, перезагрузите стр!");
-                return response.json()
-            })
-            .then(data => {
-                const list = document.getElementById('row');
-                list.innerHTML = '';
-                data.forEach(function (row) {
-                    makeList(row);
-                });
-            })
-            .catch((err) => {
-                editError(err);
-            })
-    }
-}
