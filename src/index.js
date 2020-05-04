@@ -1,7 +1,5 @@
 import api from './api.js';
 
-console.log(api.startGetList());
-
 const makeList = (row) => {
     const list = document.getElementById('row');
     const liCont = setAtr('div', 'class', 'li-cont');
@@ -52,6 +50,7 @@ const makeList = (row) => {
     list.appendChild(liCont);
 };
 
+api.getList();
 
 const setAtr =  (tag, atr, atrName, text) => {
     const el = document.createElement(tag);
@@ -64,8 +63,6 @@ const headerRow = document.getElementById('header-row');
 const textArea = document.getElementById('text');
 const addBtn = document.getElementById('input-btn');
 
-api.startCreateList();
-
 addBtn.addEventListener('click', () => {
     if (headerRow.value && textArea.value) {
         api.createTask(headerRow.value, true, textArea.value)
@@ -74,4 +71,3 @@ addBtn.addEventListener('click', () => {
         textArea.setAttribute('placeholder', 'Не оставляйте поле пустым!');
     }
 });
-

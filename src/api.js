@@ -1,7 +1,73 @@
 const someUrl = `http://localhost:3000`;
 
+// const makeList = (row) => {
+//     const list = document.getElementById('row');
+//     const liCont = setAtr('div', 'class', 'li-cont');
+//     const li = setAtr('li', 'class', 'li', row.text);
+//     if (!row.done) {
+//         li.style.textDecoration = 'line-through';
+//     }
+//
+//     const remasterBtn = setAtr('button', 'class', 'remasterBtn', 'Редактировать');
+//     const doneBtn = setAtr('button', 'class', "doneBtn", row.done ? 'Сделано' : "Не сделано");
+//     const descBtn = setAtr('button', 'class', 'descBtn', 'Описание');
+//     const liDelete = setAtr('button', 'class', "li-delete", 'Удалить');
+//
+//     doneBtn.onclick = () => {
+//         row.done === false ?
+//             api.doneTask(row.id, true) :
+//             api.doneTask(row.id, false);
+//     };
+//     liDelete.onclick = () => {
+//         api.deleteTask(row.id)
+//     };
+//     descBtn.onclick = () => {
+//         if (!descBtn.hasAttribute('data-value')) {
+//             api.openDesc(descBtn, row.id);
+//             descBtn.setAttribute('data-value', 'true');
+//         } else {
+//             descBtn.removeAttribute('data-value');
+//             descBtn.parentNode.lastChild.classList.toggle('pNone')
+//         }
+//     };
+//     remasterBtn.onclick = () => {
+//         const input = setAtr('input', 'placeholder', liCont.firstChild.textContent);
+//         input.classList.add('createInput');
+//         li.textContent = '';
+//         liCont.replaceChild(input, liCont.firstChild);
+//         remasterBtn.disabled = true;
+//         input.onchange = () => {
+//             api.editTask(row.id, input.value);
+//             remasterBtn.disabled = false;
+//         }
+//     };
+//
+//     liCont.appendChild(li);
+//     liCont.appendChild(remasterBtn);
+//     liCont.appendChild(descBtn);
+//     liCont.appendChild(doneBtn);
+//     liCont.appendChild(liDelete);
+//     list.appendChild(liCont);
+// };
+
+const getList = () => {
+    fetch(`${someUrl}/list`)
+        .then(response => {
+            if (!response.ok) throw new Error("Невозможно загрузить данные, пожалуйтса, перезагрузите стр!");
+            return response.json()
+        })
+        .then(data => {
+
+        })
+        .catch((err) => {
+            editError(err);
+        });
+};
+
+getList();
+
 const createList = () => {
-    fetch(`http://localhost:3000/list`)
+    fetch(`${someUrl}/list`)
         .then(response => {
             if (!response.ok) throw new Error("Невозможно загрузить данные, пожалуйтса, перезагрузите стр!");
             return response.json()
@@ -9,14 +75,12 @@ const createList = () => {
         .then(data => {
             const list = document.getElementById('row');
             list.innerHTML = '';
-            getList(data);
+            data.forEach((d) => array.push(d));
         })
         .catch((err) => {
             editError(err);
-        })
+        });
 };
-
-const getList = (data) => data.forEach( (li) => li );
 
 const error = document.querySelector('.error');
 const editError = (err) => {
@@ -93,6 +157,6 @@ export default {
                 descBtn.parentNode.appendChild(p);
             });
     },
-    startCreateList: () => createList(),
-    startGetList: () => getList()
+    startCreateList : () => createList(),
+    getArray: () => getList()
 }
