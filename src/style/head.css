@@ -100,7 +100,16 @@
 }
 
 .range{
-    border-left: 2px solid var(--dark-text-color);
+    height: 230px;
+    border-left: 3px solid var(--dark-text-color);
+}
+
+#ranging-p, #ranging-p2{
+    color: var(--light-text-color);
+    font-style: normal;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
 }
 
 .ranging{

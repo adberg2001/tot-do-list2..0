@@ -17,17 +17,20 @@
 </head>
 <body id="body">
 
-<div class="container main-cont pt-5">
+<div id="main-cont" class="container pt-5">
     <div class="head">
         <div class="header d-lg-flex justify-content-between align-items-center">
+
+
             <h1 id="h1" class="font-weight-bolder mb-0">Todo list</h1>
             <p class="author">by Adberg</p>
         </div>
         <div class="head__body">
-            <div class="head__first-part mr-lg-5     p-0 col-12 col-lg-6">
+            <div class="head__first-part mr-lg-5 p-0 col-12 col-lg-6">
                 <div class="actions p-3 p-md-4">
                     <span class="">Создать заметку</span>
                     <label for="header-row">
+
                         <input type="text" id="header-row" placeholder="Название заметки *">
                     </label>
                     <label for="text">
@@ -38,25 +41,25 @@
                     <div id="color-btns">
                         <span class='color-text'>Цвет фона:</span>
                         <div class="color-cont">
-                            <label class="color-label" for="#FFFBE3">
-                                <input type="radio" name="li-bg" id="#FFFBE3">
-                                <div class="color-circle" id="light-color-btn"></div>
+                            <label class="color-label">
+                                <input type="radio" class="color-input" name="li-bg" value="#FFFBE3">
+                                <div class="color-circle white-color-btn"></div>
                             </label>
-                            <label class="color-label" for="#FFD2D2">
-                                <input type="radio" name="li-bg" id="#FFD2D2">
-                                <div class="color-circle" id="pink-color-btn"></div>
+                            <label class="color-label">
+                                <input type="radio" class="color-input" name="li-bg" value="#FFD2D2">
+                                <div class="color-circle pink-color-btn"></div>
                             </label>
-                            <label class="color-label" for="#D3D2FF">
-                                <input type="radio" name="li-bg" id="#D3D2FF">
-                                <div class="color-circle" id="gray-color-btn"></div>
+                            <label class="color-label">
+                                <input type="radio" class="color-input" name="li-bg" value="#D3D2FF">
+                                <div class="color-circle gray-color-btn"></div>
                             </label>
-                            <label class="color-label" for="#D7FDD1">
-                                <input type="radio" name="li-bg" id="#D7FDD1">
-                                <div class="color-circle" id="blue-color-btn"></div>
+                            <label class="color-label">
+                                <input type="radio" class="color-input" name="li-bg" value="#D7FDD1">
+                                <div class="color-circle blue-color-btn"></div>
                             </label>
-                            <label class="color-label" for="#F8E1B6">
-                                <input type="radio" name="li-bg" id="#F8E1B6">
-                                <div class="color-circle" id="yellow-color-btn"></div>
+                            <label class="color-label">
+                                <input type="radio" class="color-input" name="li-bg" value="#F8E1B6">
+                                <div class="color-circle yellow-color-btn"></div>
                             </label>
                         </div>
                     </div>
@@ -71,15 +74,15 @@
                 </h3>
                 <div class="range pt-3 pb-3">
                     <div class="opened-cont">
-                        <p class="ml-2">открытых: <b class="rangingNum">14</b> заметок</p>
+                        <p id="ranging-p" class="ml-2">открытых: <b id="opened" class="rangingNum">14</b> заметок</p>
                         <div class="open-ranging ranging">
-                            <div></div>
+                            <div id="openRinger"></div>
                         </div>
                     </div>
                     <div class="closed-cont">
-                        <p class="ml-2">закрытых: <b class="rangingNum">76</b> заметок</p>
+                        <p id="ranging-p2" class="ml-2">закрытых: <b id="closed" class="rangingNum">76</b> заметок</p>
                         <div class="close-ranging ranging">
-                            <div></div>
+                            <div id="closeRinger"></div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +91,7 @@
 
     </div>
 
-    <div id="row" class="col-12">
+    <div id="row" class="col-12 justify-content-lg-between justify-content-sm-between justify-content-center">
 
     </div>
 </div>

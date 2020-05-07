@@ -3,72 +3,96 @@
     width: 100%;
     padding: 50px 0;
 
-    display: grid;
-    grid-template: auto / repeat(4, 1fr);
-    grid-column-gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .li-cont{
-    width: 285px;
-    height: auto;
-    margin: 10px auto;
-    padding: 10px;
+    min-height: 300px;
+    min-width: 277px;
+    margin: 10px 0;
+    padding: 25px;
     text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     background: var(--light-bg-color);
+
+    display: grid;
+    grid-template-columns: 195px 30px;
+    justify-content: center;
+    grid-template-rows: 50px auto 30px;
+    grid-template-areas: 'li done' 'p p' 'color delete';
+}
+
+@media (max-width: 776px) {
+    .li-cont{
+        width: 100%;
+    }
 }
 
 .li{
+    grid-area: li;
     list-style-type: none;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 18px;
     line-height: 22px;
+    word-wrap: break-word;
     color: var(--dark-text-color);
 }
 
-.remasterBtn{
-    margin-left: auto;
-    display: none;
-
+.doneBtn{
+    grid-area: done;
+    justify-self: end;
+    width: 30px;
+    height: 30px;
+    background: center / cover;
+}
+.doneBtn:hover{
+    border: 3px solid #29c926;
+    border-radius: 50%;
+    background: #29c926 center / cover;
 }
 
-.li-delete, .remasterBtn, .doneBtn, .descBtn{
-    height: 100px;
-    background: var(--bg-color);
-    color: var(--color);
-    width: 200px;
+.li-delete{
+    grid-area: delete;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: center / cover;
+}
+
+.li-delete:hover{
+    border: 3px solid #ff3b28;
+    border-radius: 50%;
+    background: #ff3c26 center / cover;
+}
+
+p{
+    grid-area: p;
     font-family: inherit;
-    margin-right: 10px;
-    border: 0;
-    border-radius: 10px;
-    font-size: 25px;
-    display: none;
-}
-
-.li-delete:hover, .remasterBtn:hover, .doneBtn:hover, .descBtn:hover{
-    border: 3px solid var(--bg-color);
-    color: var(--bg-color);
-    background: var(--color);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: justify-all;
+    word-wrap: break-word;
 }
 
 .createInput {
-    background: none;
-    width: 300px;
-    height: 60px;
-    color: var(--color);
-    font-size: 24px;
+    height: 22px;
+    border: 2px solid var(--bg-color);
     font-weight: bold;
-    border: 2px solid var(--color);
-    margin: 20px;
 }
 .createInput::placeholder{
-    padding: 10px;
-    background: var(--color);
     color: var(--bg-color);
-    border: 2px solid var(--color);
+}
+
+.descInput {
+    background: none;
+    border: 2px solid var(--bg-color);
+    margin-bottom: 10px;
+}
+.descInput::placeholder{
+    color: var(--bg-color);
 }
 
 .error, .error2{
@@ -81,7 +105,6 @@
     margin: 0 20px;
 
     border-radius: 10px;
-    color: var(--border-color);
     font-size: 44px;
 
     text-align: center;
