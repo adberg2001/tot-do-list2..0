@@ -105,6 +105,7 @@
 .range{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     height: 230px;
     border-left: 3px solid var(--dark-text-color);
 }
@@ -133,7 +134,7 @@
 }
 
 .opened-cont, .closed-cont{
-    display: none;
+    /*display: none;*/
 }
 
 .open-ranging div{

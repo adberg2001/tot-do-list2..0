@@ -1,4 +1,5 @@
 import api from './api.js';
+import range from './ranging.js';
 
 const makeList = (row) => {
     const list = document.getElementById('row');
@@ -53,43 +54,41 @@ const makeList = (row) => {
     const blueCircle = setAtr('div', 'class', 'color-circle blue-color-btn');
     const yellowCircle = setAtr('div', 'class', 'color-circle yellow-color-btn');
 
-    if (row.color === '#FFFBE3')setBorderToInput(whiteCircle);
-    if (row.color === "#FFD2D2")setBorderToInput(pinkCircle);
-    if (row.color === "#D3D2FF")setBorderToInput(grayCircle);
-    if (row.color === "#D7FDD1")setBorderToInput(blueCircle);
-    if (row.color === "#F8E1B6")setBorderToInput(yellowCircle);
+    if (row.color === '#FFFBE3') setBorderToInput(whiteCircle);
+    if (row.color === "#FFD2D2") setBorderToInput(pinkCircle);
+    if (row.color === "#D3D2FF") setBorderToInput(grayCircle);
+    if (row.color === "#D7FDD1") setBorderToInput(blueCircle);
+    if (row.color === "#F8E1B6") setBorderToInput(yellowCircle);
 
     whiteRadio.addEventListener('change', () => {
-        api.changeBg('#FFFBE3', row.id);
-        getList();
+        api.changeBg('#FFFBE3', row.id)
+            .then(() => getList());
     });
     pinkRadio.addEventListener('change', () => {
-        api.changeBg('#FFD2D2', row.id);
-        getList();
+        api.changeBg('#FFD2D2', row.id)
+            .then(() => getList());
     });
     grayRadio.addEventListener('change', () => {
-        api.changeBg('#D3D2FF', row.id);
-        getList();
+        api.changeBg('#D3D2FF', row.id)
+            .then(() => getList());
     });
     blueRadio.addEventListener('change', () => {
-        api.changeBg('#D7FDD1', row.id);
-        getList();
+        api.changeBg('#D7FDD1', row.id)
+            .then(() => getList());
     });
     yellowRadio.addEventListener('change', () => {
-        api.changeBg('#F8E1B6', row.id);
-        getList();
+        api.changeBg('#F8E1B6', row.id)
+            .then(() => getList());
     });
 
 
     doneBtn.onclick = () => {
-        row.done === false ?
-            api.doneTask(row.id, true) :
-            api.doneTask(row.id, false);
-        getList();
+        range.getMarkDone(row.done, row.id)
+            .then( () => getList())
     };
     liDelete.onclick = () => {
-        api.deleteTask(row.id);
-        getList();
+        api.deleteTask(row.id)
+            .then(() => getList());
     };
     li.onclick = () => {
         const input = setAtr('input', 'placeholder', liCont.firstChild.textContent);
@@ -139,18 +138,17 @@ const makeList = (row) => {
 
 const getList = () => {
     const list = document.getElementById('row');
-
     list.innerHTML = '';
     api.createLst()
+        .then( (list) => {
+            range.rangAll(list);
+            return list;
+        })
         .then(list => {
-            let openedValue = 0;
-            let closedValue = 0;
-            list.forEach((l) => {
-                makeList(l);
-                l.done ? openedValue++ : closedValue++;
-            });
-            getTotalDone(openedValue, closedValue);
-        });
+            list.forEach( l => {
+                makeList(l)
+            })
+        })
 };
 
 getList();
@@ -164,25 +162,6 @@ const setAtr = (tag, atr, atrName, text) => {
 
 const setBorderToInput = (input) => {
     input.setAttribute('id', 'checkedInput')
-};
-
-const getTotalDone = (open, close) => {
-    const rangeCont = document.getElementsByClassName('range');
-    const opened = document.getElementById('opened');
-    const closed = document.getElementById('closed');
-    const openRinger = document.getElementById('openRinger');
-    const closeRinger = document.getElementById('closeRinger');
-    let total = open + close;
-
-    if (open === 0 && close === 0){
-        rangeCont.innerHTML = ' ';
-    }else{
-        opened.textContent = open;
-        closed.textContent = close;
-    }
-
-    openRinger.style.width = `${(open * 100) / total}%`;
-    closeRinger.style.width = `${(close * 100) / total}%`;
 };
 
 const headerRow = document.getElementById('header-row');
@@ -199,10 +178,10 @@ colorInput.forEach((input) => {
 
 addBtn.addEventListener('click', () => {
     if (headerRow.value && textArea.value) {
-        api.createTask(headerRow.value, true, textArea.value, variableColor);
+        api.createTask(headerRow.value, true, textArea.value, variableColor)
+            .then(() => getList());
     } else {
         headerRow.setAttribute('placeholder', 'Не оставляйте поле пустым!');
         textArea.setAttribute('placeholder', 'Не оставляйте поле пустым!');
     }
-    getList()
 });

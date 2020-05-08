@@ -70,3 +70,12 @@ span{
     width: 30px;
     background: #92AED9;
 }
+
+.listEmpty {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: var(--light-text-color);
+}
