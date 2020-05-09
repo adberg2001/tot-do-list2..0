@@ -149,6 +149,7 @@
 }
 
 .error2{
+    height: 100px;
     width: 100%;
-    color: #B01E1E;
+    /*display: none;*/
 }

@@ -83,8 +83,8 @@ const makeList = (row) => {
 
 
     doneBtn.onclick = () => {
-        range.getMarkDone(row.done, row.id)
-            .then( () => getList())
+        api.doneTask(row.id, !row.done)
+            .then(() => getList())
     };
     liDelete.onclick = () => {
         api.deleteTask(row.id)
@@ -138,14 +138,17 @@ const makeList = (row) => {
 
 const getList = () => {
     const list = document.getElementById('row');
+
+    let open = 0; let close = 0;
     list.innerHTML = '';
     api.createLst()
-        .then( (list) => {
-            range.rangAll(list);
+        .then((list) => {
+            list.forEach(l => l.done ? open ++ : close ++);
+            range.rangAll(open, close);
             return list;
         })
         .then(list => {
-            list.forEach( l => {
+            list.forEach(l => {
                 makeList(l)
             })
         })
