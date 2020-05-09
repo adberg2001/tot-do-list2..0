@@ -1,5 +1,6 @@
 import api from './api.js';
 import range from './ranging.js';
+import colorBtn from './createColorBtn.js';
 
 const makeList = (row) => {
     const list = document.getElementById('row');
@@ -25,72 +26,18 @@ const makeList = (row) => {
         doneBtn.style.backgroundImage = "url('../img/icon.svg')" :
         doneBtn.style.backgroundImage = "url('../img/greenIcon.svg')";
 
-    const colorCont = setAtr('div', 'class', 'color-cont');
-    const whiteLabel = setAtr('label', 'class', 'color-label');
-    const pinkLabel = setAtr('label', 'class', 'color-label');
-    const grayLabel = setAtr('label', 'class', 'color-label');
-    const blueLabel = setAtr('label', 'class', 'color-label');
-    const yellowLabel = setAtr('label', 'class', 'color-label');
 
-    const whiteRadio = setAtr('input', 'type', 'radio');
-    whiteRadio.setAttribute('name', row.id);
-
-    const pinkRadio = setAtr('input', 'type', 'radio');
-    pinkRadio.setAttribute('name', row.id);
-
-    const grayRadio = setAtr('input', 'type', 'radio');
-    grayRadio.setAttribute('name', row.id);
-
-    const blueRadio = setAtr('input', 'type', 'radio');
-    blueRadio.setAttribute('name', row.id);
-
-    const yellowRadio = setAtr('input', 'type', 'radio');
-    yellowRadio.setAttribute('name', row.id);
-
-
-    const whiteCircle = setAtr('div', 'class', 'color-circle white-color-btn');
-    const pinkCircle = setAtr('div', 'class', 'color-circle pink-color-btn');
-    const grayCircle = setAtr('div', 'class', 'color-circle gray-color-btn');
-    const blueCircle = setAtr('div', 'class', 'color-circle blue-color-btn');
-    const yellowCircle = setAtr('div', 'class', 'color-circle yellow-color-btn');
-
-    if (row.color === '#FFFBE3') setBorderToInput(whiteCircle);
-    if (row.color === "#FFD2D2") setBorderToInput(pinkCircle);
-    if (row.color === "#D3D2FF") setBorderToInput(grayCircle);
-    if (row.color === "#D7FDD1") setBorderToInput(blueCircle);
-    if (row.color === "#F8E1B6") setBorderToInput(yellowCircle);
-
-    whiteRadio.addEventListener('change', () => {
-        api.changeBg('#FFFBE3', row.id)
-            .then(() => getList());
-    });
-    pinkRadio.addEventListener('change', () => {
-        api.changeBg('#FFD2D2', row.id)
-            .then(() => getList());
-    });
-    grayRadio.addEventListener('change', () => {
-        api.changeBg('#D3D2FF', row.id)
-            .then(() => getList());
-    });
-    blueRadio.addEventListener('change', () => {
-        api.changeBg('#D7FDD1', row.id)
-            .then(() => getList());
-    });
-    yellowRadio.addEventListener('change', () => {
-        api.changeBg('#F8E1B6', row.id)
-            .then(() => getList());
-    });
-
-
-    doneBtn.onclick = () => {
+    doneBtn.addEventListener('click', () => {
         api.doneTask(row.id, !row.done)
             .then(() => getList())
-    };
-    liDelete.onclick = () => {
+    });
+
+    liDelete.addEventListener('click', () => {
         api.deleteTask(row.id)
             .then(() => getList());
-    };
-    li.onclick = () => {
+    });
+
+    li.addEventListener('click', () => {
         const input = setAtr('input', 'placeholder', liCont.firstChild.textContent);
         input.classList.add('createInput');
         li.textContent = '';
@@ -99,8 +46,9 @@ const makeList = (row) => {
             api.editHeadOfList(row.id, input.value)
                 .then(() => getList());
         };
-    };
-    p.onclick = () => {
+    });
+
+    p.addEventListener('click', () => {
         const input = setAtr('textarea', 'placeholder', liCont.children[2].textContent);
         input.classList.add('descInput');
         p.textContent = '';
@@ -109,24 +57,17 @@ const makeList = (row) => {
             api.editDescOfList(row.id, input.value)
                 .then(() => getList());
         };
-    };
+    });
 
-    whiteLabel.appendChild(whiteRadio);
-    whiteLabel.appendChild(whiteCircle);
-    pinkLabel.appendChild(pinkRadio);
-    pinkLabel.appendChild(pinkCircle);
-    grayLabel.appendChild(grayRadio);
-    grayLabel.appendChild(grayCircle);
-    blueLabel.appendChild(blueRadio);
-    blueLabel.appendChild(blueCircle);
-    yellowLabel.appendChild(yellowRadio);
-    yellowLabel.appendChild(yellowCircle);
+    const colorCont = setAtr('div', 'class', 'color-cont');
 
-    colorCont.appendChild(whiteLabel);
-    colorCont.appendChild(pinkLabel);
-    colorCont.appendChild(grayLabel);
-    colorCont.appendChild(blueLabel);
-    colorCont.appendChild(yellowLabel);
+    colorBtn.createColorBtn(row, colorCont);
+    colorCont.childNodes.forEach((label) => {
+        label.children[0].addEventListener('change', () => {
+            api.changeBg(label.children[0].value, row.id)
+                .then(() => getList())
+        });
+    });
 
     liCont.appendChild(li);
     liCont.appendChild(doneBtn);
@@ -139,12 +80,14 @@ const makeList = (row) => {
 const getList = () => {
     const list = document.getElementById('row');
 
-    let open = 0; let close = 0;
+    let open = 0;
+    let close = 0;
     list.innerHTML = '';
     api.createLst()
         .then((list) => {
-            list.forEach(l => l.done ? open ++ : close ++);
+            list.forEach(l => l.done ? open++ : close++);
             range.rangAll(open, close);
+
             return list;
         })
         .then(list => {
@@ -161,10 +104,6 @@ const setAtr = (tag, atr, atrName, text) => {
     el.setAttribute(atr, atrName);
     el.textContent = text;
     return el;
-};
-
-const setBorderToInput = (input) => {
-    input.setAttribute('id', 'checkedInput')
 };
 
 const headerRow = document.getElementById('header-row');
