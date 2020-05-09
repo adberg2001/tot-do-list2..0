@@ -1,5 +1,3 @@
-import api from './api.js'
-
 const setAtr = (tag, atr, atrName, text) => {
     const el = document.createElement(tag);
     el.setAttribute(atr, atrName);

@@ -79,3 +79,11 @@ span{
     text-transform: uppercase;
     color: var(--light-text-color);
 }
+
+.redError{
+    width: 350px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #B01E1E;
+}
